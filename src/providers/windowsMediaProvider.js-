@@ -1,100 +1,245 @@
+const electron = require('electron');
+
 const {
-    MediaPlaybackStatus,
-    MediaPlaybackType,
-    SystemMediaTransportControlsButton,
-} = require('@nodert-win10/windows.media')
+    app,
+    BrowserWindow,
+    TouchBar,
+    nativeImage
+} = require('electron');
 const {
-    BackgroundMediaPlayer,
-} = require('@nodert-win10/windows.media.playback')
-const {
-    RandomAccessStreamReference,
-} = require('@nodert-win10/windows.storage.streams')
-const { Uri } = require('@nodert-win10/windows.foundation')
+    TouchBarLabel,
+    TouchBarButton,
+    TouchBarSpacer
+} = TouchBar;
+const path = require('path');
+const url = require('url');
 
-const mediaControl = require('../providers/mediaProvider')
-const settingsProvider = require('./settingsProvider')
+let win;
 
-class windowsMediaProvider {
-    constructor() {
-        this._webContents
-        this._isInitialized = false
-        this._controls =
-            BackgroundMediaPlayer.current.systemMediaTransportControls
+/* ----------  MC BEGIN ---------- */
 
-        if (
-            !settingsProvider.get('settings-windows10-media-service-show-info')
-        ) {
-            this._controls.isEnabled = false
-        }
+/* -- MC VARS BEGIN -- */
+var playing = false;
+/* --- MC VARS END --- */
 
-        this._controls.isChannelDownEnabled = false
-        this._controls.isChannelUpEnabled = false
-        this._controls.isFastForwardEnabled = false
-        this._controls.isRecordEnabled = false
-        this._controls.isRewindEnabled = false
-        this._controls.isNextEnabled = true
-        this._controls.isPauseEnabled = true
-        this._controls.isPlayEnabled = true
-        this._controls.isPreviousEnabled = true
+const back = new TouchBarButton({
+    backgroundColor: '#444444',
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build/back.png')).resize({
+        width: 16,
+        height: 16
+    }),
+    iconPosition: 'center',
+    click: () => {
+        /* do smth */ }
+});
 
-        this._controls.playbackStatus = MediaPlaybackStatus.closed
-        this._controls.displayUpdater.type = MediaPlaybackType.music
 
-        this._controls.displayUpdater.musicProperties.title = 'YouTube Music'
-        this._controls.displayUpdater.musicProperties.artist = ''
-        this._controls.displayUpdater.thumbnail = RandomAccessStreamReference.createFromUri(
-            new Uri('https://avatars1.githubusercontent.com/u/48072485?s=500')
-        )
-
-        this._controls.displayUpdater.update()
-
-        this._controls.on('buttonpressed', (sender, eventArgs) => {
-            switch (eventArgs.button) {
-                case SystemMediaTransportControlsButton.play:
-                    mediaControl.playPauseTrack(this._webContents)
-                    break
-                case SystemMediaTransportControlsButton.pause:
-                    mediaControl.playPauseTrack(this._webContents)
-                    break
-                case SystemMediaTransportControlsButton.next:
-                    mediaControl.nextTrack(this._webContents)
-                    break
-                case SystemMediaTransportControlsButton.previous:
-                    mediaControl.previousTrack(this._webContents)
-                    break
-                default:
-                    break
-            }
-        })
-    }
-
-    init(view) {
-        this._webContents = view.webContents
-        this._isInitialized = true
-    }
-
-    setPlaybackStatus(status) {
-        if (this._isInitialized) {
-            if (status) {
-                this._controls.playbackStatus = MediaPlaybackStatus.paused
-            } else {
-                this._controls.playbackStatus = MediaPlaybackStatus.playing
-            }
-            this._controls.displayUpdater.update()
+const playPause = new TouchBarButton({
+    backgroundColor: '#444444',
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build/play.png')).resize({
+        width: 16,
+        height: 16
+    }),
+    iconPosition: 'center',
+    click: () => {
+        console.log(playing);
+        if (playing) {
+            playPause.icon = nativeImage.createFromPath(path.join(__dirname, 'build/play.png')).resize({
+                width: 16,
+                height: 16
+            });
+            playing = false;
+        } else {
+            playPause.icon = nativeImage.createFromPath(path.join(__dirname, 'build/pause.png')).resize({
+                width: 16,
+                height: 16
+            });
+            playing = true;
         }
     }
+});
 
-    setPlaybackData(title, author, cover, album) {
-        if (this._isInitialized) {
-            this._controls.displayUpdater.musicProperties.title = title
-            this._controls.displayUpdater.musicProperties.artist = author
-            this._controls.displayUpdater.thumbnail = RandomAccessStreamReference.createFromUri(
-                new Uri(cover)
-            )
-            this._controls.displayUpdater.musicProperties.albumTitle = album
-            this._controls.displayUpdater.update()
+const forward = new TouchBarButton({
+    backgroundColor: '#444444',
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build/forward.png')).resize({
+        width: 16,
+        height: 16
+    }),
+    iconPosition: 'center',
+    click: () => {
+        /* do smth */ }
+});
+
+/* -----------  MC END ----------- */
+
+/* ---------- MISC BEGIN --------- */
+
+/* -- MC VARS BEGIN -- */
+var like = 0; // dislike = -1, neutral = 0, like = 1
+var muted = false;
+var repeat = -1; // repeat_off = -1, repeat = 0, repeat_one = 1
+/* --- MC VARS END --- */
+
+const downVote = new TouchBarButton({
+    backgroundColor: '#444444',
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build/thumbsdown.png')).resize({
+        width: 16,
+        height: 16
+    }),
+    iconPosition: 'center',
+    click: () => {
+        if (like == 0) {
+            downVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsdown_true.png')).resize({
+                width: 16,
+                height: 16
+            });
+            like = -1;
+			upVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsup.png')).resize({
+                width: 16,
+                height: 16
+            });
+        } else {
+            downVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsdown.png')).resize({
+                width: 16,
+                height: 16
+            });
+            like = 0;
         }
     }
+});
+
+const upVote = new TouchBarButton({
+    backgroundColor: '#444444',
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build/thumbsup.png')).resize({
+        width: 16,
+        height: 16
+    }),
+    iconPosition: 'center',
+    click: () => {
+        if (like == 0) {
+            upVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsup_true.png')).resize({
+                width: 16,
+                height: 16
+            });
+            like = 1;
+			downVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsdown.png')).resize({
+                width: 16,
+                height: 16
+            });
+        } else {
+            upVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsup.png')).resize({
+                width: 16,
+                height: 16
+            });
+            like = 0;
+        }
+    }
+});
+
+const volumeToggle = new TouchBarButton({
+    backgroundColor: '#444444',
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build/mute.png')).resize({
+        width: 16,
+        height: 16
+    }),
+    iconPosition: 'center',
+    click: () => {
+        if (muted) {
+            volumeToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/mute.png')).resize({
+                width: 16,
+                height: 16
+            });
+            muted = false
+        } else {
+            volumeToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/unmute.png')).resize({
+                width: 16,
+                height: 16
+            });
+            muted = true;
+        }
+    }
+});
+
+const repeatToggle = new TouchBarButton({
+    backgroundColor: '#444444',
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build/repeat-off.png')).resize({
+        width: 16,
+        height: 16
+    }),
+    iconPosition: 'center',
+    click: () => {
+        if (repeat == -1) {
+            repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/repeat.png')).resize({
+                width: 16,
+                height: 16
+            });
+            repeat = 0;
+        } else {
+			if(repeat == 0){
+				repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/repeat-one.png')).resize({
+					width: 16,
+					height: 16
+				});
+				repeat = 1;
+			}else{
+				repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/repeat-off.png')).resize({
+					width: 16,
+					height: 16
+				});
+				repeat = -1;
+			}
+
+        }
+    }
+});
+/* ----------  MISC END ---------- */
+
+const touchBar = new TouchBar([
+    back,
+    playPause,
+    forward,
+    new TouchBarSpacer({
+        size: 'large'
+    }),
+    downVote,
+	upVote,
+	new TouchBarSpacer({
+        size: 'large'
+    }),
+	new TouchBarSpacer({
+        size: 'large'
+    }),
+	volumeToggle,
+	repeatToggle
+]);
+
+function createWindow() {
+    win = new BrowserWindow({
+        width: 800,
+        height: 600
+    });
+    win.loadURL(url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+
+    win.on('closed', () => {
+        win = null;
+    });
+
+    win.setTouchBar(touchBar);
 }
+app.on('ready', createWindow);
 
-module.exports = new windowsMediaProvider()
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
+app.on('activate', () => {
+    if (win === null) {
+        createWindow();
+    }
+});

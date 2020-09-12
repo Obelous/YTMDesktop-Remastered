@@ -198,8 +198,203 @@ function setProgress(mainWindow, progress, isPaused) {
 }
 
 function createTouchBar(mainWindow) {
-    // TODO: Implement touchbar
-    // mainWindow.setTouchBar();
+	/* ----------  MC BEGIN ---------- */
+
+	/* -- MC VARS BEGIN -- */
+	var playing = false;
+	/* --- MC VARS END --- */
+
+	const back = new TouchBarButton({
+		backgroundColor: '#444444',
+		icon: nativeImage.createFromPath(path.join(__dirname, 'build/back.png')).resize({
+			width: 16,
+			height: 16
+		}),
+		iconPosition: 'center',
+		click: () => {
+			/* do smth */ }
+	});
+
+
+	const playPause = new TouchBarButton({
+		backgroundColor: '#444444',
+		icon: nativeImage.createFromPath(path.join(__dirname, 'build/play.png')).resize({
+			width: 16,
+			height: 16
+		}),
+		iconPosition: 'center',
+		click: () => {
+			console.log(playing);
+			if (playing) {
+				playPause.icon = nativeImage.createFromPath(path.join(__dirname, 'build/play.png')).resize({
+					width: 16,
+					height: 16
+				});
+				playing = false;
+			} else {
+				playPause.icon = nativeImage.createFromPath(path.join(__dirname, 'build/pause.png')).resize({
+					width: 16,
+					height: 16
+				});
+				playing = true;
+			}
+		}
+	});
+
+	const forward = new TouchBarButton({
+		backgroundColor: '#444444',
+		icon: nativeImage.createFromPath(path.join(__dirname, 'build/forward.png')).resize({
+			width: 16,
+			height: 16
+		}),
+		iconPosition: 'center',
+		click: () => {
+			/* do smth */ }
+	});
+
+	/* -----------  MC END ----------- */
+
+	/* ---------- MISC BEGIN --------- */
+
+	/* -- MC VARS BEGIN -- */
+	var like = 0; // dislike = -1, neutral = 0, like = 1
+	var muted = false;
+	var repeat = infoPlayerProvider.getAllInfo().repeatType; // repeat_off = NONE, repeat = ALL, repeat_one = ONE
+	/* --- MC VARS END --- */
+
+	const downVote = new TouchBarButton({
+		backgroundColor: '#444444',
+		icon: nativeImage.createFromPath(path.join(__dirname, 'build/thumbsdown.png')).resize({
+			width: 16,
+			height: 16
+		}),
+		iconPosition: 'center',
+		click: () => {
+			if (like == 0) {
+				downVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsdown_true.png')).resize({
+					width: 16,
+					height: 16
+				});
+				like = -1;
+				upVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsup.png')).resize({
+					width: 16,
+					height: 16
+				});
+			} else {
+				downVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsdown.png')).resize({
+					width: 16,
+					height: 16
+				});
+				like = 0;
+			}
+		}
+	});
+
+	const upVote = new TouchBarButton({
+		backgroundColor: '#444444',
+		icon: nativeImage.createFromPath(path.join(__dirname, 'build/thumbsup.png')).resize({
+			width: 16,
+			height: 16
+		}),
+		iconPosition: 'center',
+		click: () => {
+			if (like == 0) {
+				upVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsup_true.png')).resize({
+					width: 16,
+					height: 16
+				});
+				like = 1;
+				downVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsdown.png')).resize({
+					width: 16,
+					height: 16
+				});
+			} else {
+				upVote.icon = nativeImage.createFromPath(path.join(__dirname, 'build/thumbsup.png')).resize({
+					width: 16,
+					height: 16
+				});
+				like = 0;
+			}
+		}
+	});
+
+	const volumeToggle = new TouchBarButton({
+		backgroundColor: '#444444',
+		icon: nativeImage.createFromPath(path.join(__dirname, 'build/mute.png')).resize({
+			width: 16,
+			height: 16
+		}),
+		iconPosition: 'center',
+		click: () => {
+			if (muted) {
+				volumeToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/mute.png')).resize({
+					width: 16,
+					height: 16
+				});
+				muted = false
+			} else {
+				volumeToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/unmute.png')).resize({
+					width: 16,
+					height: 16
+				});
+				muted = true;
+			}
+		}
+	});
+
+	const repeatToggle = new TouchBarButton({
+		backgroundColor: '#444444',
+		icon: nativeImage.createFromPath(path.join(__dirname, 'build/repeat-off.png')).resize({
+			width: 16,
+			height: 16
+		}),
+		iconPosition: 'center',
+		click: () => {
+			if (repeat == -1) {
+				repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/repeat.png')).resize({
+					width: 16,
+					height: 16
+				});
+				repeat = 0;
+			} else {
+				if(repeat == 0){
+					repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/repeat-one.png')).resize({
+						width: 16,
+						height: 16
+					});
+					repeat = 1;
+				}else{
+					repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, 'build/repeat-off.png')).resize({
+						width: 16,
+						height: 16
+					});
+					repeat = -1;
+				}
+
+			}
+		}
+	});
+	/* ----------  MISC END ---------- */
+
+	const touchBar = new TouchBar([
+		back,
+		playPause,
+		forward,
+		new TouchBarSpacer({
+			size: 'large'
+		}),
+		downVote,
+		upVote,
+		new TouchBarSpacer({
+			size: 'large'
+		}),
+		new TouchBarSpacer({
+			size: 'large'
+		}),
+		volumeToggle,
+		repeatToggle
+	]);
+    mainWindow.setTouchBar(touchBar);
 }
 
 const guarder = (mainWindow, f) => {
@@ -228,4 +423,4 @@ exports.addToPlaylist = mediaAddToPlaylist
 exports.createThumbar = createThumbar
 exports.setProgress = setProgress
 // For Mac
-// exports.createTouchBar = createTouchBar;
+exports.createTouchBar = createTouchBar;
