@@ -27,9 +27,9 @@ script:
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
-        /bin/bash -c "npm --link-duplicates --pure-lockfile && npm release --linux --win"
+        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn release --linux --win"
     else
-      npm release
+      yarn release
     fi
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
