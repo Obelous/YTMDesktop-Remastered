@@ -27,11 +27,14 @@ ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
 const touchService = new MediaService();
 
 touchService.startService();
-touchService.on('play', () => dialog.showMessageBox(null));
-touchService.on('pause', () => dialog.showMessageBox(null));
+touchService.on('play', () => ipcMain.emit('media-command', {command: 'media-play-pause',value: true,}));
+touchService.on('pause', () => ipcMain.emit('media-command', {command: 'media-play-pause',value: true,}));
 
 touchService.on('seek', (to) => {
-  dialog.showMessageBox(null)
+  ipcMain.emit('media-command', {
+    command: 'media-seekbar-set',
+    value: to,
+  })
 })
 
 /* ufo END */
