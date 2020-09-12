@@ -977,18 +977,7 @@ function createWindow() {
         event.sender.send('update-status-bar')
         event.sender.send('is-dev', isDev)
     })
-
-    ipcMain.on('update-tray', () => {
-        if (isMac()) {
-            updateStatusBar()
-            tray.setShinyTray()
-        }
-    })
-
-    ipcMain.on('btn-update-clicked', () => {
-        updater.quitAndInstall()
-    })
-
+	
     ipcMain.on('window', (dataMain, dataRenderer) => {
         let command, value
 
@@ -1765,14 +1754,6 @@ if (!gotTheLock) {
                 tray.updateImage(payload)
         })
 
-        if (!isDev) {
-            updater.checkUpdate(mainWindow, view)
-
-            setInterval(function () {
-                updater.checkUpdate(mainWindow, view)
-            }, 24 * 60 * 60 * 1000)
-        }
-
         ipcMain.emit('ready', app)
     })
 
@@ -2026,7 +2007,6 @@ ipcMain.handle('get-audio-output-list', (event, someArgument) => {
 // code. You can also put them in separate files and require them here.
 const mediaControl = require('./src/providers/mediaProvider')
 const tray = require('./src/providers/trayProvider')
-const updater = require('./src/providers/updateProvider')
 const analytics = require('./src/providers/analyticsProvider')
 
 analytics.setEvent('main', 'start', 'v' + app.getVersion(), app.getVersion())
