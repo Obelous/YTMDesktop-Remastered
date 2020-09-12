@@ -12,9 +12,10 @@
         "build:lin": "npx electron-builder --linux --config electron-builder-deploy64.yml",
         "publish:win": "npx electron-builder --win -p always --config electron-builder64.yml",
         "publish:mac": "npx electron-builder --mac -p always --config electron-builder64.yml",
-        "publish:lin": "npx electron-builder --linux -p always --config electron-builder64.yml"
+        "publish:lin": "npx electron-builder --linux -p always --config electron-builder64.yml",
+        "release": "electron-builder build --publish always"
     },
-    "repository": "https://github.com/ytmdesktop/ytmdesktop",
+    "repository": "https://github.com/ObelousAB/YTMDesktop-Remastered",
     "keywords": [
         "Electron",
         "Youtube",
@@ -22,11 +23,6 @@
     ],
     "author": "Adler Luiz <adlerluiz10@gmail.com>",
     "license": "CC0-1.0",
-    "husky": {
-        "hooks": {
-            "pre-commit": "pretty-quick --staged --pattern \"**/*.js\" --pattern \"**/*.html\" --pattern \"**/*.json\""
-        }
-    },
     "devDependencies": {
         "electron": "^10.1.1",
         "electron-builder": "^22.8.0",
