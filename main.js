@@ -29,10 +29,10 @@ const touchService = new MediaService();
 touchService.startService();
 touchService.on('play', () => dialog.showMessageBox(null));
 touchService.on('pause', () => dialog.showMessageBox(null));
-/*touchService.setMetaData({
-  title: 'Never Gonna Give You Up',
+touchService.setMetaData({
+  title: 'Never Gonna Give You Up'
   // Other track meta data here
-});*/
+});
 
 touchService.on('seek', (to) => {
   dialog.showMessageBox(null)
