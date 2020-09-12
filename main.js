@@ -131,7 +131,7 @@ if (
     settingsProvider.get('settings-windows10-media-service')
 ) {
     try {
-        windowsMediaProvider = require('./src/providers/windowsMediaProvider')
+        //windowsMediaProvider = require('./src/providers/windowsMediaProvider')
     } catch (error) {
         console.log('error windowsMediaProvider > ' + error)
     }
