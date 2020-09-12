@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-	fail-fast: false
+        fail-fast: false
         os: [macos-latest, ubuntu-latest]
 
     steps:
