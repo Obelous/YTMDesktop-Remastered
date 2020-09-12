@@ -15,16 +15,15 @@ const {
     shell,
     dialog,
     session,
-	TouchBar,
+    TouchBar,
     nativeImage
-} = require('electron')
-const path = require('path')
-
+} = require('electron');
 const {
     TouchBarLabel,
     TouchBarButton,
     TouchBarSpacer
 } = TouchBar;
+const path = require('path')
 
 /* sentry start */
 Sentry.init({
@@ -61,13 +60,13 @@ const touchService = new MediaService();
 touchService.startService();
 touchService.on('play', () => console.log("test"));
 touchService.on('pause', () => console.log("test"));
-
+/*
 touchService.on('seek', (to) => {
   ipcMain.emit('media-command', {
     command: 'media-seekbar-set',
     value: to,
   })
-})
+})*/
 
 /* ufo END */
 
@@ -335,7 +334,7 @@ function createWindow() {
     // view.webContents.openDevTools({ mode: 'detach' })
 
     mediaControl.createThumbar(mainWindow, infoPlayerProvider.getAllInfo())
-    mediaControl.createTouchBar(mainWindow)
+    mainWindow.setTouchBar(mediaControl.createTouchBar(mainWindow))
 
     if (windowMaximized) {
         setTimeout(function () {

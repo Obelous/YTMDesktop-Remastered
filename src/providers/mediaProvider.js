@@ -405,7 +405,7 @@ function createTouchBar(mainWindow) {
 		volumeToggle,
 		repeatToggle
 	]);
-    mainWindow.setTouchBar(touchBar);
+    return touchBar;
 }
 
 const guarder = (mainWindow, f) => {
