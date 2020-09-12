@@ -303,6 +303,7 @@ function createWindow() {
     // view.webContents.openDevTools({ mode: 'detach' })
 
     mediaControl.createThumbar(mainWindow, infoPlayerProvider.getAllInfo())
+    createTouchBar(mainWindow)
 
     if (windowMaximized) {
         setTimeout(function () {
