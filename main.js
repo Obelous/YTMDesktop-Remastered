@@ -1,5 +1,6 @@
 require('./src/utils/defaultSettings')
 const MediaService = require("electron-media-service")
+const Sentry = require("@sentry/node");
 
 const {
     app,
@@ -13,9 +14,40 @@ const {
     screen,
     shell,
     dialog,
-    session
+    session,
+	TouchBar,
+    nativeImage
 } = require('electron')
 const path = require('path')
+
+const {
+    TouchBarLabel,
+    TouchBarButton,
+    TouchBarSpacer
+} = TouchBar;
+
+/* sentry start */
+Sentry.init({
+  dsn: "https://405f32f2a4b443089fc14fe05ecc148c@o257127.ingest.sentry.io/1449784",
+  tracesSampleRate: 1.0,
+});
+
+const transaction = Sentry.startTransaction({
+  op: "test",
+  name: "My First Test Transaction",
+});
+
+setTimeout(() => {
+  try {
+    foo();
+  } catch (e) {
+    Sentry.captureException(e);
+  } finally {
+    transaction.finish();
+  }
+}, 99);
+/* sentry end*/
+
 
 /* ufo START */
 const { ElectronBlocker } = require("@cliqz/adblocker-electron");
@@ -303,7 +335,7 @@ function createWindow() {
     // view.webContents.openDevTools({ mode: 'detach' })
 
     mediaControl.createThumbar(mainWindow, infoPlayerProvider.getAllInfo())
-    createTouchBar(mainWindow)
+    mediaControl.createTouchBar(mainWindow)
 
     if (windowMaximized) {
         setTimeout(function () {

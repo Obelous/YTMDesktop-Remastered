@@ -2,6 +2,17 @@ const __ = require('./translateProvider')
 const systemInfo = require('../utils/systemInfo')
 const infoPlayerProvider = require('../providers/infoPlayerProvider')
 const path = require('path')
+const {
+    app,
+    BrowserWindow,
+    TouchBar,
+    nativeImage
+} = require('electron');
+const {
+    TouchBarLabel,
+    TouchBarButton,
+    TouchBarSpacer
+} = TouchBar;
 
 function mediaPlayPauseTrack(mainWindow) {
     mainWindow.webContents.sendInputEvent({ type: 'keydown', keyCode: ';' })
