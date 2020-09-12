@@ -1,5 +1,5 @@
 require('./src/utils/defaultSettings')
-//const MediaService = require("electron-media-service")
+const MediaService = require("electron-media-service")
 
 const {
     app,
@@ -24,19 +24,19 @@ ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
   blocker.enableBlockingInSession(session.defaultSession);
 });
 
-//const touchService = new MediaService();
+const touchService = new MediaService();
 
-//touchService.startService();
-//touchService.on('play', () => checkDoubleTapPlayPause());
-//touchService.on('pause', () => checkDoubleTapPlayPause());
+touchService.startService();
+touchService.on('play', () => checkDoubleTapPlayPause());
+touchService.on('pause', () => checkDoubleTapPlayPause());
 /*touchService.setMetaData({
   title: 'Never Gonna Give You Up',
   // Other track meta data here
 });*/
-/*
+
 touchService.on('seek', (to) => {
   mediaControl.changeSeekbar(view, to)
-})*/
+})
 
 /* ufo END */
 
