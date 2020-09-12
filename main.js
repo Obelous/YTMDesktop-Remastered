@@ -27,15 +27,15 @@ ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
 const touchService = new MediaService();
 
 touchService.startService();
-touchService.on('play', () => checkDoubleTapPlayPause());
-touchService.on('pause', () => checkDoubleTapPlayPause());
+touchService.on('play', () => dialog.showMessageBox(null));
+touchService.on('pause', () => dialog.showMessageBox(null));
 /*touchService.setMetaData({
   title: 'Never Gonna Give You Up',
   // Other track meta data here
 });*/
 
 touchService.on('seek', (to) => {
-  mediaControl.changeSeekbar(view, to)
+  dialog.showMessageBox(null)
 })
 
 /* ufo END */
