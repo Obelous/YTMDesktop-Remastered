@@ -387,7 +387,7 @@ function createTouchBar(mainWindow) {
 	});
 	/* ----------  MISC END ---------- */
 
-	const touchBar = new TouchBar([
+	const touchBar = new TouchBar({items:[
 		back,
 		playPause,
 		forward,
@@ -404,7 +404,7 @@ function createTouchBar(mainWindow) {
 		}),
 		volumeToggle,
 		repeatToggle
-	]);
+	]});
     return touchBar;
 }
 
