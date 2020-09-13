@@ -363,7 +363,7 @@ function createWindow() {
         shell.openExternal(url)
     })
 
-    // view.webContents.openDevTools({ mode: 'detach' });
+    view.webContents.openDevTools({ mode: 'detach' });
     view.webContents.on('did-navigate-in-page', function () {
         initialized = true
         settingsProvider.set('window-url', view.webContents.getURL())
@@ -408,7 +408,7 @@ function createWindow() {
         }
 
         if (isMac()) {
-			asjhdsjkgh()
+			console.log("test")
             global.sharedObj.paused = false
             updateStatusBar()
         }
