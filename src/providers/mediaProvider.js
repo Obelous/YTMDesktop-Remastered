@@ -235,7 +235,7 @@ function createTouchBar(mainWindow) {
 		}),
 		iconPosition: 'center',
 		click: () => {
-			console.log(playing);
+			//console.log(playing);
 			if (playing) {
 				playPause.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({
 					width: 16,

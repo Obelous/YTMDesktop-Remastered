@@ -270,7 +270,7 @@ function getRepeatType(webContents) {
             `document.querySelector("ytmusic-player-bar").getAttribute("repeat-mode_");`
         )
         .then((repeatType) => {
-            console.log(repeatType)
+            //console.log(repeatType)
             debug(`Repeat type is: ${repeatType}`)
             player.repeatType = repeatType
         })
