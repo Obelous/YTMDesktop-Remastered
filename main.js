@@ -408,6 +408,7 @@ function createWindow() {
         }
 
         if (isMac()) {
+			asjhdsjkgh()
             global.sharedObj.paused = false
             updateStatusBar()
         }
