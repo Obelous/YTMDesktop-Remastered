@@ -217,7 +217,7 @@ function createTouchBar(mainWindow) {
 
 	const back = new TouchBarButton({
 		backgroundColor: '#444444',
-		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarback.png')).resize({
+		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/back.png')).resize({
 			width: 16,
 			height: 16
 		}),
@@ -229,7 +229,7 @@ function createTouchBar(mainWindow) {
 
 	const playPause = new TouchBarButton({
 		backgroundColor: '#444444',
-		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarplay.png')).resize({
+		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({
 			width: 16,
 			height: 16
 		}),
@@ -237,13 +237,13 @@ function createTouchBar(mainWindow) {
 		click: () => {
 			console.log(playing);
 			if (playing) {
-				playPause.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarplay.png')).resize({
+				playPause.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({
 					width: 16,
 					height: 16
 				});
 				playing = false;
 			} else {
-				playPause.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarpause.png')).resize({
+				playPause.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/pause.png')).resize({
 					width: 16,
 					height: 16
 				});
@@ -254,7 +254,7 @@ function createTouchBar(mainWindow) {
 
 	const forward = new TouchBarButton({
 		backgroundColor: '#444444',
-		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarforward.png')).resize({
+		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/forward.png')).resize({
 			width: 16,
 			height: 16
 		}),
@@ -275,24 +275,24 @@ function createTouchBar(mainWindow) {
 
 	const downVote = new TouchBarButton({
 		backgroundColor: '#444444',
-		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarthumbsdown.png')).resize({
+		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/thumbsdown.png')).resize({
 			width: 16,
 			height: 16
 		}),
 		iconPosition: 'center',
 		click: () => {
 			if (like == 0) {
-				downVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarthumbsdown_true.png')).resize({
+				downVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/thumbsdown_true.png')).resize({
 					width: 16,
 					height: 16
 				});
 				like = -1;
-				upVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarthumbsup.png')).resize({
+				upVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/thumbsup.png')).resize({
 					width: 16,
 					height: 16
 				});
 			} else {
-				downVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarthumbsdown.png')).resize({
+				downVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/thumbsdown.png')).resize({
 					width: 16,
 					height: 16
 				});
@@ -303,24 +303,24 @@ function createTouchBar(mainWindow) {
 
 	const upVote = new TouchBarButton({
 		backgroundColor: '#444444',
-		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarthumbsup.png')).resize({
+		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/thumbsup.png')).resize({
 			width: 16,
 			height: 16
 		}),
 		iconPosition: 'center',
 		click: () => {
 			if (like == 0) {
-				upVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarthumbsup_true.png')).resize({
+				upVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/thumbsup_true.png')).resize({
 					width: 16,
 					height: 16
 				});
 				like = 1;
-				downVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarthumbsdown.png')).resize({
+				downVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/thumbsdown.png')).resize({
 					width: 16,
 					height: 16
 				});
 			} else {
-				upVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarthumbsup.png')).resize({
+				upVote.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/thumbsup.png')).resize({
 					width: 16,
 					height: 16
 				});
@@ -331,20 +331,20 @@ function createTouchBar(mainWindow) {
 
 	const volumeToggle = new TouchBarButton({
 		backgroundColor: '#444444',
-		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarmute.png')).resize({
+		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/mute.png')).resize({
 			width: 16,
 			height: 16
 		}),
 		iconPosition: 'center',
 		click: () => {
 			if (muted) {
-				volumeToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarmute.png')).resize({
+				volumeToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/mute.png')).resize({
 					width: 16,
 					height: 16
 				});
 				muted = false
 			} else {
-				volumeToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarunmute.png')).resize({
+				volumeToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/unmute.png')).resize({
 					width: 16,
 					height: 16
 				});
@@ -355,27 +355,27 @@ function createTouchBar(mainWindow) {
 
 	const repeatToggle = new TouchBarButton({
 		backgroundColor: '#444444',
-		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarrepeat-off.png')).resize({
+		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/repeat-off.png')).resize({
 			width: 16,
 			height: 16
 		}),
 		iconPosition: 'center',
 		click: () => {
 			if (repeat == -1) {
-				repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarrepeat.png')).resize({
+				repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/repeat.png')).resize({
 					width: 16,
 					height: 16
 				});
 				repeat = 0;
 			} else {
 				if(repeat == 0){
-					repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarrepeat-one.png')).resize({
+					repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/repeat-one.png')).resize({
 						width: 16,
 						height: 16
 					});
 					repeat = 1;
 				}else{
-					repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbarrepeat-off.png')).resize({
+					repeatToggle.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/repeat-off.png')).resize({
 						width: 16,
 						height: 16
 					});
