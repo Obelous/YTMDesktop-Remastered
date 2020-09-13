@@ -229,7 +229,7 @@ function createTouchBar(mainWindow) {
 
 	const playPause = new TouchBarButton({
 		backgroundColor: '#444444',
-		icon: infoPlayerProvider.getAllInfo.player.isPaused ? nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({width: 16,height: 16}) : playPause.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/pause.png')).resize({width: 16,height: 16}),
+		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({width: 16,height: 16}),
 		iconPosition: 'center',
 		click: () => {
 			mediaPlayPauseTrack(mainWindow.getBrowserView())
