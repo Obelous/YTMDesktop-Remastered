@@ -242,12 +242,14 @@ function createTouchBar(mainWindow) {
 					height: 16
 				});
 				playing = false;
+				mediaPlayPauseTrack(mainWindow.getBrowserView())
 			} else {
 				playPause.icon = nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/pause.png')).resize({
 					width: 16,
 					height: 16
 				});
 				playing = true;
+				mediaPlayPauseTrack(mainWindow.getBrowserView())
 			}
 		}
 	});
