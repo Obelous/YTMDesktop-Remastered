@@ -336,7 +336,7 @@ function createWindow() {
     // view.webContents.openDevTools({ mode: 'detach' })
 
     mediaControl.createThumbar(mainWindow, infoPlayerProvider.getAllInfo())
-	mediaControl.createTouchBar(mainWindow) // ufo
+	mainWindow.setTouchBar(mediaControl.createTouchBar(mainWindow)) // ufo
 
     if (windowMaximized) {
         setTimeout(function () {
@@ -399,7 +399,11 @@ function createWindow() {
                 mprisProvider.setRealPlayer(infoPlayerProvider) //this lets us keep track of the current time in playback.
             }
         }
+		console.log(mainWindow)
 		console.log(mainWindow.touchBar)
+		console.log(mainWindow.touchbar)
+		console.log(mainWindow.TouchBar)
+		
         if (
             isWindows() &&
             os.release().startsWith('10.') &&
