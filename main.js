@@ -148,24 +148,26 @@ createCustomAppDir()
 createCustomCSSDir()
 createCustomCSSPageFile()
 
-if (settingsProvider.get('has-updated') == true) {
-    setTimeout(() => {
-        writeLog({ type: 'info', data: 'YTMDesktop updated' })
-        ipcMain.emit('window', { command: 'show-changelog' })
-    }, 2000)
-}
+// Updates are disabled because this is a custom build by me.
+// if (settingsProvider.get('has-updated') == true) {
+    // setTimeout(() => {
+        // writeLog({ type: 'info', data: 'YTMDesktop updated' })
+        // ipcMain.emit('window', { command: 'show-changelog' })
+    // }, 2000)
+// }
 
-if (
-    isWindows() &&
-    os.release().startsWith('10.') &&
-    settingsProvider.get('settings-windows10-media-service')
-) {
-    try {
-        //windowsMediaProvider = require('./src/providers/windowsMediaProvider')
-    } catch (error) {
-        console.log('error windowsMediaProvider > ' + error)
-    }
-}
+// For some reason the module that provided the rich media presence wouldnt compile on windows (I'm not completely sure why).
+// if (
+    // isWindows() &&
+    // os.release().startsWith('10.') &&
+    // settingsProvider.get('settings-windows10-media-service')
+// ) {
+    // try {
+        // windowsMediaProvider = require('./src/providers/windowsMediaProvider')
+    // } catch (error) {
+        // console.log('error windowsMediaProvider > ' + error)
+    // }
+// }
 
 if (isLinux()) {
     mprisProvider.start()
@@ -334,7 +336,7 @@ function createWindow() {
     // view.webContents.openDevTools({ mode: 'detach' })
 
     mediaControl.createThumbar(mainWindow, infoPlayerProvider.getAllInfo())
-    mainWindow.setTouchBar(mediaControl.createTouchBar(mainWindow))
+	mediaControl.createTouchBar(mainWindow) // ufo
 
     if (windowMaximized) {
         setTimeout(function () {
@@ -397,7 +399,7 @@ function createWindow() {
                 mprisProvider.setRealPlayer(infoPlayerProvider) //this lets us keep track of the current time in playback.
             }
         }
-
+		console.log(mainWindow.touchBar)
         if (
             isWindows() &&
             os.release().startsWith('10.') &&

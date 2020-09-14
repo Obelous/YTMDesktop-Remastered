@@ -208,6 +208,14 @@ function setProgress(mainWindow, progress, isPaused) {
     }
 }
 
+var mainWind = null;
+function createTouch(mainWindow){
+	mainWind = mainWindow
+}
+while(mainWind){
+	console.log(mainWind)
+}
+
 function createTouchBar(mainWindow) {
 	/* ----------  MC BEGIN ---------- */
 
@@ -215,7 +223,7 @@ function createTouchBar(mainWindow) {
 	var playing = false;
 	/* --- MC VARS END --- */
 
-	const back = new TouchBarButton({
+	const back = new TouchBarButton({ // done
 		backgroundColor: '#444444',
 		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/back.png')).resize({
 			width: 16,
@@ -223,21 +231,21 @@ function createTouchBar(mainWindow) {
 		}),
 		iconPosition: 'center',
 		click: () => {
-			/* do smth */ }
+			mediaNextTrack(mainWindow.getBrowserView())
+		}
 	});
 
 
-	const playPause = new TouchBarButton({
+	const playPause = new TouchBarButton({ /////////////////////////// ALMOST COMPLETE, NEED UPDATE EVENT THINGEY
 		backgroundColor: '#444444',
 		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({width: 16,height: 16}),
 		iconPosition: 'center',
 		click: () => {
 			mediaPlayPauseTrack(mainWindow.getBrowserView())
-
 		}
 	});
 
-	const forward = new TouchBarButton({
+	const forward = new TouchBarButton({ // done
 		backgroundColor: '#444444',
 		icon: nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/forward.png')).resize({
 			width: 16,
@@ -245,7 +253,8 @@ function createTouchBar(mainWindow) {
 		}),
 		iconPosition: 'center',
 		click: () => {
-			/* do smth */ }
+			mediaPreviousTrack(mainWindow.getBrowserView())
+		}
 	});
 
 	/* -----------  MC END ----------- */
@@ -372,7 +381,7 @@ function createTouchBar(mainWindow) {
 	});
 	/* ----------  MISC END ---------- */
 
-	const touchBar = new TouchBar({items:[
+	var touchBar = new TouchBar({items:[
 		back,
 		playPause,
 		forward,
@@ -390,7 +399,12 @@ function createTouchBar(mainWindow) {
 		volumeToggle,
 		repeatToggle
 	]});
-    return touchBar;
+	
+    mainWindow.setTouchBar(mainWindow)
+	/*
+	var update = () => {
+	  touchBar.playPause.icon = global.sharedObj.paused ? nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({width: 16,height: 16}) : nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/pause.png')).resize({width: 16,height: 16});
+	};*/
 }
 
 const guarder = (mainWindow, f) => {
@@ -420,3 +434,4 @@ exports.createThumbar = createThumbar
 exports.setProgress = setProgress
 // For Mac
 exports.createTouchBar = createTouchBar;
+exports.createTouch = createTouch;

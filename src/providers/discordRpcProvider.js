@@ -44,9 +44,8 @@ function setActivity(info) {
         var now = Date.now()
         var activity = {}
         var discordSettings = settingsProvider.get('discord-presence-settings')
-
+		
         if (discordSettings.details) activity.details = info.track.title
-
         if (discordSettings.state) activity.state = info.track.author
 
         if (discordSettings.time) {
@@ -70,7 +69,6 @@ function setActivity(info) {
         activity.largeImageText = 'YouTube Music'
         activity.smallImageText = info.player.isPaused ? 'Paused' : 'Playing'
         activity.instance = false
-
         if (!discordSettings.hideIdle && info.player.isPaused) {
             client.clearActivity()
         } else {
