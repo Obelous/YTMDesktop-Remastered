@@ -400,7 +400,7 @@ function createTouchBar(mainWindow) {
 		repeatToggle
 	]});
 	
-    mainWindow.setTouchBar(mainWindow)
+    return touchBar
 	/*
 	var update = () => {
 	  touchBar.playPause.icon = global.sharedObj.paused ? nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({width: 16,height: 16}) : nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/pause.png')).resize({width: 16,height: 16});
