@@ -186,6 +186,7 @@ if (isMac()) {
                 nativeTheme.shouldUseDarkColors
             )
             updateStatusBar()
+			updateTouchBar()
         }
     )
     const menu = Menu.buildFromTemplate(statusBarMenu)
@@ -399,8 +400,7 @@ function createWindow() {
                 mprisProvider.setRealPlayer(infoPlayerProvider) //this lets us keep track of the current time in playback.
             }
         }
-		console.log(mainWindow._touchBar.ordereredItems[1].icon = global.sharedObj.paused ? nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({width: 16,height: 16}) : nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/pause.png')).resize({width: 16,height: 16}))
-		console.log(mainWindow._touchBar.ordereredItems[1].label)
+		//console.log(mainWindow._touchBar.ordereredItems[1].label)
 
         if (
             isWindows() &&
@@ -412,9 +412,10 @@ function createWindow() {
         }
 
         if (isMac()) {
-			console.log("test")
+			//console.log("test")
             global.sharedObj.paused = false
             updateStatusBar()
+			updateTouchBar()
         }
 
         if (infoPlayerInterval === undefined) {
@@ -541,6 +542,7 @@ function createWindow() {
                 if (isMac()) {
                     global.sharedObj.title = nowPlaying
                     updateStatusBar()
+					updateTouchBar()
                 }
 
                 mainWindow.setTitle(nowPlaying)
@@ -619,6 +621,7 @@ function createWindow() {
         try {
             if (isMac()) {
                 updateStatusBar()
+				updateTouchBar()
             }
 
             global.sharedObj.paused = false
@@ -634,6 +637,7 @@ function createWindow() {
         try {
             if (isMac()) {
                 updateStatusBar()
+				updateTouchBar()
             }
 
             global.sharedObj.paused = true
@@ -1996,6 +2000,10 @@ function updateStatusBar() {
     if (renderer_for_status_bar != null) {
         renderer_for_status_bar.send('update-status-bar')
     }
+}
+
+function updateTouchBar() {
+	mainWindow._touchBar.ordereredItems[1].icon = global.sharedObj.paused ? nativeImage.createFromPath(path.join(__dirname, './src/assets/img/touchbar/play.png')).resize({width: 16,height: 16}) : nativeImage.createFromPath(path.join(__dirname, './src/assets/img/touchbar/pause.png')).resize({width: 16,height: 16})
 }
 
 function writeLog(log) {
