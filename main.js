@@ -399,11 +399,8 @@ function createWindow() {
                 mprisProvider.setRealPlayer(infoPlayerProvider) //this lets us keep track of the current time in playback.
             }
         }
-		console.log(mainWindow)
-		console.log(mainWindow.touchBar)
-		console.log(mainWindow.touchbar)
-		console.log(mainWindow.TouchBar)
-		
+		console.log(mainWindow._touchBar.ordereredItems)
+
         if (
             isWindows() &&
             os.release().startsWith('10.') &&
@@ -1015,7 +1012,7 @@ function createWindow() {
         event.sender.send('update-status-bar')
         event.sender.send('is-dev', isDev)
     })
-	
+
     ipcMain.on('window', (dataMain, dataRenderer) => {
         let command, value
 
