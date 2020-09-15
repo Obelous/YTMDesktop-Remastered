@@ -399,7 +399,8 @@ function createWindow() {
                 mprisProvider.setRealPlayer(infoPlayerProvider) //this lets us keep track of the current time in playback.
             }
         }
-		console.log(mainWindow._touchBar.ordereredItems)
+		console.log(mainWindow._touchBar.ordereredItems[1].icon = global.sharedObj.paused ? nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/play.png')).resize({width: 16,height: 16}) : nativeImage.createFromPath(path.join(__dirname, '../assets/img/touchbar/pause.png')).resize({width: 16,height: 16}))
+		console.log(mainWindow._touchBar.ordereredItems[1].label)
 
         if (
             isWindows() &&
